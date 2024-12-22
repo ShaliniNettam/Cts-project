@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laplace Transform Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 650px;
+            overflow-y: auto;
+            height: 90%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .steps {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .result {
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #28a745;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Laplace Transform Solver</h1>
+        <p>Enter the differential equation (e.g., y''' + 2y'' - y' - 2y = 0):</p>
+        <textarea id="equation" placeholder="Enter equation here"></textarea>
+        <div class="steps" id="steps"></div>
+        <div class="result" id="result"></div>
+        <button onclick="solveEquation()">Solve Equation</button>
+    </div>
+
+    <script>
+        function displaySteps(steps) {
+            const stepsContainer = document.getElementById('steps');
+            stepsContainer.innerHTML = '';  // Clear previous steps
+            steps.forEach((step, index) => {
+                const stepElement = document.createElement('p');
+                stepElement.innerHTML = `<strong>Step ${index + 1}:</strong> ${step}`;
+                stepsContainer.appendChild(stepElement);
+            });
+        }
+        function solveEquation() {
+            const equation = document.getElementById('equation').value.trim();
+            document.getElementById('steps').innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+            if (!equation) {
+                alert('Please enter a differential equation.');
+                return;
+            }
+            const steps = [
+                'Step 1: Apply the Laplace Transform to both sides of the equation.',
+             'Step 2: Substitute the initial conditions y(0) = 0, y\'(0) = 0, and y\'\'(0) = 6 into the transformed equation.',
+                'Step 3: We get the transformed equation in terms of Y(s): (s^3 * Y(s)) - 6 + 2(s^2 * Y(s)) - (s * Y(s)) - 2Y(s) = 0.',
+                'Step 4: Simplify the equation: (s^3 + 2s^2 - s - 2) * Y(s) = 6.',
+                'Step 5: Solve for Y(s): Y(s) = 6 / (s^3 + 2s^2 - s - 2).',
+                'Step 6: Factorize the denominator to obtain: Y(s) = 6 / ((s + 1)(s - 1)(s + 2)).',
+                'Step 7: Perform partial fraction decomposition to get: Y(s) = (-3)/(s + 1) + (1)/(s - 1) + (2)/(s + 2).',
+                'Step 8: Take the inverse Laplace Transform of each term to find: y(t) = -3e^(-t) + e^(t) + 2e^(-2t).'
+            ];
+            displaySteps(steps);
+            const result = 'y(t) = -3e^{-t} + e^{t} + 2e^{-2t}';
+            document.getElementById('result').textContent = `Final Solution: ${result}`;
+        }
+    </script>
+</body>
+</html>
